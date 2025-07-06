@@ -1,0 +1,1 @@
+export {default as ColorModeTrigger} from './ColorModeTrigger.vue'

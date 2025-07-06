@@ -1,0 +1,437 @@
+--
+--
+-- SET statement_timeout = 0;
+-- SET lock_timeout = 0;
+-- SET idle_in_transaction_session_timeout = 0;
+-- SET transaction_timeout = 0;
+-- SET client_encoding = 'UTF8';
+-- SET standard_conforming_strings = on;
+-- SELECT pg_catalog.set_config('search_path', '', false);
+-- SET check_function_bodies = false;
+-- SET xmloption = content;
+-- SET client_min_messages = warning;
+-- SET row_security = off;
+--
+--
+-- CREATE EXTENSION IF NOT EXISTS "pg_net" WITH SCHEMA "extensions";
+--
+--
+--
+--
+--
+--
+-- COMMENT ON SCHEMA "public" IS 'standard public schema';
+--
+--
+--
+-- CREATE EXTENSION IF NOT EXISTS "pg_graphql" WITH SCHEMA "graphql";
+--
+--
+--
+--
+--
+--
+-- CREATE EXTENSION IF NOT EXISTS "pg_stat_statements" WITH SCHEMA "extensions";
+--
+--
+--
+--
+--
+--
+-- CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA "extensions";
+--
+--
+--
+--
+--
+--
+-- CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
+--
+--
+--
+--
+--
+--
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
+--
+--
+--
+--
+--
+--
+-- CREATE TYPE "public"."event_status" AS ENUM (
+--     'upcomming',
+--     'active',
+--     'completed',
+--     'cancelled'
+-- );
+--
+--
+-- ALTER TYPE "public"."event_status" OWNER TO "postgres";
+--
+-- SET default_tablespace = '';
+--
+-- SET default_table_access_method = "heap";
+--
+--
+-- CREATE TABLE IF NOT EXISTS "public"."event_photos" (
+--     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+--     "event_id" "uuid",
+--     "file_path" character varying(500) NOT NULL,
+--     "file_name" character varying(255) NOT NULL,
+--     "file_size" integer,
+--     "upload_date" timestamp without time zone DEFAULT "now"(),
+--     "processing_status" character varying(50) DEFAULT 'pending'::character varying,
+--     "face_count" integer DEFAULT 0
+-- );
+--
+--
+-- ALTER TABLE "public"."event_photos" OWNER TO "postgres";
+--
+--
+-- CREATE TABLE IF NOT EXISTS "public"."events" (
+--     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+--     "name" character varying(255) NOT NULL,
+--     "description" "text",
+--     "event_date" "date" NOT NULL,
+--     "organizer_id" "uuid",
+--     "status" "public"."event_status",
+--     "created_at" timestamp without time zone DEFAULT "now"(),
+--     "updated_at" timestamp without time zone DEFAULT "now"()
+-- );
+--
+--
+-- ALTER TABLE "public"."events" OWNER TO "postgres";
+--
+--
+-- CREATE TABLE IF NOT EXISTS "public"."instruments" (
+--     "id" bigint NOT NULL,
+--     "name" "text" NOT NULL
+-- );
+--
+--
+-- ALTER TABLE "public"."instruments" OWNER TO "postgres";
+--
+--
+-- ALTER TABLE "public"."instruments" ALTER COLUMN "id" ADD GENERATED ALWAYS AS IDENTITY (
+--     SEQUENCE NAME "public"."instruments_id_seq"
+--     START WITH 1
+--     INCREMENT BY 1
+--     NO MINVALUE
+--     NO MAXVALUE
+--     CACHE 1
+-- );
+--
+--
+--
+-- ALTER TABLE ONLY "public"."event_photos"
+--     ADD CONSTRAINT "event_photos_pkey" PRIMARY KEY ("id");
+--
+--
+--
+-- ALTER TABLE ONLY "public"."events"
+--     ADD CONSTRAINT "events_pkey" PRIMARY KEY ("id");
+--
+--
+--
+-- ALTER TABLE ONLY "public"."instruments"
+--     ADD CONSTRAINT "instruments_pkey" PRIMARY KEY ("id");
+--
+--
+--
+-- ALTER TABLE ONLY "public"."event_photos"
+--     ADD CONSTRAINT "event_photos_event_id_fkey" FOREIGN KEY ("event_id") REFERENCES "public"."events"("id") ON DELETE CASCADE;
+--
+--
+--
+-- ALTER TABLE ONLY "public"."events"
+--     ADD CONSTRAINT "events_organizer_id_fkey" FOREIGN KEY ("organizer_id") REFERENCES "auth"."users"("id");
+--
+--
+--
+-- CREATE POLICY "allow insert" ON "public"."events" FOR INSERT TO "authenticated" WITH CHECK (("auth"."uid"() = "organizer_id"));
+--
+--
+--
+-- CREATE POLICY "allow read" ON "public"."events" FOR SELECT USING ((( SELECT "auth"."uid"() AS "uid") = "organizer_id"));
+--
+--
+--
+-- ALTER TABLE "public"."event_photos" ENABLE ROW LEVEL SECURITY;
+--
+--
+-- ALTER TABLE "public"."events" ENABLE ROW LEVEL SECURITY;
+--
+--
+-- ALTER TABLE "public"."instruments" ENABLE ROW LEVEL SECURITY;
+--
+--
+-- CREATE POLICY "public can read instruments" ON "public"."instruments" FOR SELECT TO "anon" USING (true);
+--
+--
+--
+--
+--
+-- ALTER PUBLICATION "supabase_realtime" OWNER TO "postgres";
+--
+--
+--
+--
+--
+-- GRANT USAGE ON SCHEMA "public" TO "postgres";
+-- GRANT USAGE ON SCHEMA "public" TO "anon";
+-- GRANT USAGE ON SCHEMA "public" TO "authenticated";
+-- GRANT USAGE ON SCHEMA "public" TO "service_role";
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+-- GRANT ALL ON TABLE "public"."event_photos" TO "anon";
+-- GRANT ALL ON TABLE "public"."event_photos" TO "authenticated";
+-- GRANT ALL ON TABLE "public"."event_photos" TO "service_role";
+--
+--
+--
+-- GRANT ALL ON TABLE "public"."events" TO "anon";
+-- GRANT ALL ON TABLE "public"."events" TO "authenticated";
+-- GRANT ALL ON TABLE "public"."events" TO "service_role";
+--
+--
+--
+-- GRANT ALL ON TABLE "public"."instruments" TO "anon";
+-- GRANT ALL ON TABLE "public"."instruments" TO "authenticated";
+-- GRANT ALL ON TABLE "public"."instruments" TO "service_role";
+--
+--
+--
+-- GRANT ALL ON SEQUENCE "public"."instruments_id_seq" TO "anon";
+-- GRANT ALL ON SEQUENCE "public"."instruments_id_seq" TO "authenticated";
+-- GRANT ALL ON SEQUENCE "public"."instruments_id_seq" TO "service_role";
+--
+--
+--
+--
+--
+--
+--
+--
+--
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "postgres";
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "anon";
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "authenticated";
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "service_role";
+--
+--
+--
+--
+--
+--
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "postgres";
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "anon";
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "authenticated";
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "service_role";
+--
+--
+--
+--
+--
+--
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "postgres";
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "anon";
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "authenticated";
+-- ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "service_role";
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+-- RESET ALL;

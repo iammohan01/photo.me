@@ -1,0 +1,41 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@std/crypto@*": "1.0.5"
+  },
+  "jsr": {
+    "@std/crypto@1.0.5": {
+      "integrity": "0dcfbb319fe0bba1bd3af904ceb4f948cde1b92979ec1614528380ed308a3b40"
+    }
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@nuxt/eslint@1.5.2",
+        "npm:@nuxt/fonts@0.11.4",
+        "npm:@nuxt/icon@1.15.0",
+        "npm:@nuxt/image@1.10.0",
+        "npm:@nuxt/ui@3.2.0",
+        "npm:@supabase/supabase-js@^2.50.3",
+        "npm:@tailwindcss/vite@^4.1.11",
+        "npm:@uppy/core@^4.4.7",
+        "npm:@vee-validate/zod@^4.15.1",
+        "npm:class-variance-authority@~0.7.1",
+        "npm:clsx@^2.1.1",
+        "npm:lucide-vue-next@0.525",
+        "npm:nuxt@^3.17.6",
+        "npm:reka-ui@^2.3.2",
+        "npm:shadcn-nuxt@2.2.0",
+        "npm:tailwind-merge@^3.3.1",
+        "npm:tailwindcss@^4.1.11",
+        "npm:tus-js-client@^4.3.1",
+        "npm:tw-animate-css@^1.3.5",
+        "npm:vee-validate@^4.15.1",
+        "npm:vue-router@^4.5.1",
+        "npm:vue-sonner@^2.0.1",
+        "npm:vue@^3.5.17",
+        "npm:zod@^3.25.74"
+      ]
+    }
+  }
+}
