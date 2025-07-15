@@ -3,30 +3,22 @@ import dotenv from "dotenv";
 
 export default defineNuxtConfig({
     compatibilityDate: "2025-05-15",
-    devtools: { enabled: true },
+    devtools: {enabled: true},
     runtimeConfig: {
         public: {
             supabaseUrl: process.env.SUPABASE_URL,
             supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
         },
     },
-    nitro: {
-        preset: "cloudflare-pages",
-
-        cloudflare: {
-            deployConfig: true,
-            nodeCompat: true,
-        },
-    },
-    css: ["~/assets/css/tailwind.css"],
+    css: ['~/assets/css/tailwind.css'],
     vite: {
         plugins: [
             tailwindcss(),
         ],
     },
     shadcn: {
-        prefix: "",
-        componentDir: "./components/ui",
+        prefix: '',
+        componentDir: './components/ui'
     },
     modules: [
         "@nuxt/eslint",
@@ -35,6 +27,5 @@ export default defineNuxtConfig({
         "@nuxt/image",
         "@nuxt/ui",
         "shadcn-nuxt",
-        "nitro-cloudflare-dev",
     ],
 });
