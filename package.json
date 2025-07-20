@@ -37,7 +37,6 @@
     "vue-sonner": "^2.0.1",
     "zod": "^3.25.74"
   },
-  "packageManager": "pnpm@10.11.1+sha1.82b5e196a3201a1871fce7461b3bdf8742486168",
   "devDependencies": {
     "nitro-cloudflare-dev": "^0.2.2",
     "nitropack": "^2.12.3",
