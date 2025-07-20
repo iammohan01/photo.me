@@ -1,5 +1,7 @@
 export default defineEventHandler(async (event) => {
     const eventId = getRouterParam(event, 'eventId')
+    const fileId = getRouterParam(event, 'id')
+    const bucket: R2Bucket = event.context.cloudflare.env.photo_me
 
     if (!eventId) {
         throw createError({
@@ -8,9 +10,5 @@ export default defineEventHandler(async (event) => {
         })
     }
 
-    return {
-        message: 'Hello World id',
-        method: 'GET',
-        eventId: eventId
-    }
+    return bucket.get(`${eventId}/${fileId}/raw`)
 })

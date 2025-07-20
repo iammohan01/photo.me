@@ -18,7 +18,7 @@ export async function uploadFile(
             headers: {
                 'Authorization': `Bearer ${session.access_token}`,
                 'Content-Type': file.type,
-                'x-file-name': fileName
+                'x-file-name': sanitizeFileName(fileName)
             },
             onUploadProgress: (progressEvent: { loaded: number; total?: number }) => {
                 if (progressEvent.total && onProgress) {
@@ -35,4 +35,11 @@ export async function uploadFile(
         console.log("Upload failed:", error);
         throw error;
     }
+}
+
+const sanitizeFileName = (fileName: string): string => {
+    return fileName
+        .replace(/[^a-zA-Z0-9.-]/g, '_') // Replace non-alphanumeric chars with underscore
+        .replace(/_{2,}/g, '_') // Replace multiple underscores with single
+        .replace(/^_|_$/g, '') // Remove leading/trailing underscores
 }
