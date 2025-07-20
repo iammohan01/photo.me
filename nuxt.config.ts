@@ -1,5 +1,4 @@
 import tailwindcss from "@tailwindcss/vite";
-import dotenv from "dotenv";
 
 export default defineNuxtConfig({
     compatibilityDate: "2025-05-15",
@@ -9,6 +8,15 @@ export default defineNuxtConfig({
             supabaseUrl: process.env.SUPABASE_URL,
             supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
         },
+        supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    },
+    nitro: {
+        preset: "cloudflare_module",
+
+        cloudflare: {
+            deployConfig: true,
+            nodeCompat: true
+        }
     },
     css: ['~/assets/css/tailwind.css'],
     vite: {
@@ -26,6 +34,7 @@ export default defineNuxtConfig({
         "@nuxt/icon",
         "@nuxt/image",
         "@nuxt/ui",
-        "shadcn-nuxt",
+        "nitro-cloudflare-dev",
+        'shadcn-nuxt'
     ],
 });

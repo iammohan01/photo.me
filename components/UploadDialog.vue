@@ -62,8 +62,6 @@ const handleUpload = async () => {
         uploadProgress.value = progress
       })
 
-      // const { data, error } = await supabase.storage.from(props.eventId).upload(fileName, file)
-
       emit('upload-complete', fileName)
     }
 
@@ -132,7 +130,7 @@ const closeDialog = () => {
             </p>
           </div>
 
-          <!-- Hidden file input -->
+          <!-- Hidden file.ts input -->
           <input
               id="file-upload"
               type="file"
